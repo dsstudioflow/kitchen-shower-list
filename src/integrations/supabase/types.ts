@@ -14,7 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      gifts: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_reserved: boolean
+          name: string
+          purchase_link: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_reserved?: boolean
+          name: string
+          purchase_link?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_reserved?: boolean
+          name?: string
+          purchase_link?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reservations: {
+        Row: {
+          created_at: string
+          gift_id: string
+          guest_email: string
+          guest_name: string
+          id: string
+          is_couple: boolean
+          spouse_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          gift_id: string
+          guest_email: string
+          guest_name: string
+          id?: string
+          is_couple?: boolean
+          spouse_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          gift_id?: string
+          guest_email?: string
+          guest_name?: string
+          id?: string
+          is_couple?: boolean
+          spouse_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reservations_gift_id_fkey"
+            columns: ["gift_id"]
+            isOneToOne: true
+            referencedRelation: "gifts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
