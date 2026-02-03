@@ -139,9 +139,11 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t bg-card py-6">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>Feito com ❤️ para celebrar nosso amor</p>
+      <footer className="border-t border-border/50 bg-card/30 py-8">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm text-muted-foreground">
+            Feito com <span className="text-primary">❤️</span> para celebrar nosso amor
+          </p>
         </div>
       </footer>
 

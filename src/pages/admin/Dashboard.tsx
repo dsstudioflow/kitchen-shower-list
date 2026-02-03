@@ -131,10 +131,10 @@ export default function AdminDashboard() {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-muted-foreground">
+          <h1 className="font-display text-3xl font-bold text-foreground">Dashboard</h1>
+          <p className="mt-1 text-muted-foreground">
             Acompanhe o progresso do seu chá de cozinha
           </p>
         </div>
@@ -152,29 +152,33 @@ export default function AdminDashboard() {
             value={stats.reserved}
             icon={Check}
             description="Presentes confirmados"
+            variant="primary"
           />
           <StatCard
             title="Disponíveis"
             value={stats.available}
             icon={Clock}
             description="Aguardando reserva"
+            variant="muted"
           />
         </div>
 
         {/* Progress */}
-        <Card>
+        <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-lg">Progresso</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="font-display text-lg">Progresso</CardTitle>
+            <div className="rounded-lg bg-primary/20 p-2">
+              <TrendingUp className="h-4 w-4 text-primary" />
+            </div>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-4">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">
                 {stats.reserved} de {stats.total} presentes reservados
               </span>
-              <span className="font-medium">{stats.percentage}%</span>
+              <span className="font-semibold text-primary">{stats.percentage}%</span>
             </div>
-            <Progress value={stats.percentage} className="h-2" />
+            <Progress value={stats.percentage} className="h-3 bg-muted" />
           </CardContent>
         </Card>
 
