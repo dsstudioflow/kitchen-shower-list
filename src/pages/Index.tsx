@@ -42,34 +42,43 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-8 text-center">
-          <div className="mb-4 flex justify-center">
-            <div className="rounded-full bg-primary/10 p-4">
-              <Heart className="h-10 w-10 text-primary" />
+      <header className="relative overflow-hidden border-b border-border/50 bg-card/50 backdrop-blur-sm">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/10" />
+        <div className="container relative mx-auto px-4 py-12 text-center md:py-16">
+          <div className="mb-6 flex justify-center">
+            <div className="rounded-2xl bg-gradient-to-br from-primary to-primary/80 p-4 shadow-lg shadow-primary/20">
+              <Heart className="h-10 w-10 text-primary-foreground" />
             </div>
           </div>
-          <h1 className="mb-2 text-3xl font-bold text-foreground md:text-4xl">
+          <h1 className="mb-3 font-display text-4xl font-bold tracking-tight text-foreground md:text-5xl">
             Chá de Cozinha
           </h1>
-          <p className="mx-auto max-w-md text-muted-foreground">
+          <p className="mx-auto max-w-lg text-lg text-muted-foreground">
             Escolha um presente especial para nos ajudar a montar nossa nova casa. 
             Cada item foi escolhido com carinho!
           </p>
 
           {/* Stats */}
-          <div className="mt-6 flex justify-center gap-8">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-foreground">{stats.total}</div>
-              <div className="text-sm text-muted-foreground">Total</div>
+          <div className="mt-10 flex justify-center gap-6 md:gap-12">
+            <div className="group text-center">
+              <div className="text-3xl font-bold text-foreground transition-colors group-hover:text-primary md:text-4xl">
+                {stats.total}
+              </div>
+              <div className="mt-1 text-sm font-medium text-muted-foreground">Total</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{stats.available}</div>
-              <div className="text-sm text-muted-foreground">Disponíveis</div>
+            <div className="h-12 w-px bg-border/50" />
+            <div className="group text-center">
+              <div className="text-3xl font-bold text-primary md:text-4xl">
+                {stats.available}
+              </div>
+              <div className="mt-1 text-sm font-medium text-muted-foreground">Disponíveis</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-muted-foreground">{stats.reserved}</div>
-              <div className="text-sm text-muted-foreground">Reservados</div>
+            <div className="h-12 w-px bg-border/50" />
+            <div className="group text-center">
+              <div className="text-3xl font-bold text-muted-foreground md:text-4xl">
+                {stats.reserved}
+              </div>
+              <div className="mt-1 text-sm font-medium text-muted-foreground">Reservados</div>
             </div>
           </div>
         </div>
@@ -130,9 +139,11 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t bg-card py-6">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>Feito com ❤️ para celebrar nosso amor</p>
+      <footer className="border-t border-border/50 bg-card/30 py-8">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm text-muted-foreground">
+            Feito com <span className="text-primary">❤️</span> para celebrar nosso amor
+          </p>
         </div>
       </footer>
 
