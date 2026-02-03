@@ -3,108 +3,83 @@
 @tailwind utilities;
 
 /* Design System - Chá de Cozinha
-   Modern & Commercial with Moss Green accent
-   Dark mode first approach
+   Premium Dark Theme with Moss Green accent
    All colors in HSL
 */
 
 @layer base {
   :root {
-    /* Light mode - elegant neutral with moss green accents */
-    --background: 60 9% 98%;
-    --foreground: 150 10% 10%;
+    /* Dark mode as default */
+    --background: 160 20% 4%;
+    --foreground: 60 10% 95%;
 
-    --card: 60 9% 100%;
-    --card-foreground: 150 10% 10%;
+    --card: 160 15% 7%;
+    --card-foreground: 60 10% 95%;
 
-    --popover: 60 9% 100%;
-    --popover-foreground: 150 10% 10%;
+    --popover: 160 15% 8%;
+    --popover-foreground: 60 10% 95%;
 
-    /* Moss Green Primary */
-    --primary: 143 30% 35%;
-    --primary-foreground: 60 9% 98%;
+    /* Moss Green Primary - vibrant */
+    --primary: 152 45% 45%;
+    --primary-foreground: 160 20% 4%;
 
-    --secondary: 150 8% 92%;
-    --secondary-foreground: 150 10% 15%;
+    --secondary: 160 12% 12%;
+    --secondary-foreground: 60 10% 90%;
 
-    --muted: 150 8% 94%;
-    --muted-foreground: 150 6% 45%;
+    --muted: 160 10% 12%;
+    --muted-foreground: 160 8% 55%;
 
-    --accent: 143 20% 90%;
-    --accent-foreground: 143 30% 25%;
+    --accent: 152 30% 15%;
+    --accent-foreground: 152 45% 60%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 150 10% 88%;
-    --input: 150 10% 88%;
-    --ring: 143 30% 35%;
+    --border: 160 12% 14%;
+    --input: 160 12% 14%;
+    --ring: 152 45% 45%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
-    /* Sidebar - light */
-    --sidebar-background: 150 8% 96%;
-    --sidebar-foreground: 150 10% 25%;
-    --sidebar-primary: 143 30% 35%;
-    --sidebar-primary-foreground: 60 9% 98%;
-    --sidebar-accent: 143 20% 90%;
-    --sidebar-accent-foreground: 143 30% 25%;
-    --sidebar-border: 150 10% 88%;
-    --sidebar-ring: 143 30% 35%;
+    /* Sidebar */
+    --sidebar-background: 160 18% 5%;
+    --sidebar-foreground: 60 10% 90%;
+    --sidebar-primary: 152 45% 45%;
+    --sidebar-primary-foreground: 160 20% 4%;
+    --sidebar-accent: 152 25% 12%;
+    --sidebar-accent-foreground: 152 45% 60%;
+    --sidebar-border: 160 12% 12%;
+    --sidebar-ring: 152 45% 45%;
 
     /* Custom tokens */
-    --success: 143 60% 40%;
-    --success-foreground: 60 9% 98%;
+    --success: 152 60% 42%;
+    --success-foreground: 160 20% 4%;
     --warning: 38 92% 50%;
     --warning-foreground: 38 92% 10%;
+    
+    /* Glow effects */
+    --glow-primary: 152 45% 45%;
+    --glow-secondary: 180 40% 40%;
   }
 
-  .dark {
-    /* Dark mode - rich dark with moss green accents */
-    --background: 150 15% 6%;
-    --foreground: 60 9% 96%;
-
-    --card: 150 12% 9%;
-    --card-foreground: 60 9% 96%;
-
-    --popover: 150 12% 9%;
-    --popover-foreground: 60 9% 96%;
-
-    /* Moss Green Primary - lighter for dark mode */
-    --primary: 143 40% 50%;
-    --primary-foreground: 150 15% 6%;
-
-    --secondary: 150 10% 15%;
-    --secondary-foreground: 60 9% 90%;
-
-    --muted: 150 10% 15%;
-    --muted-foreground: 150 8% 55%;
-
-    --accent: 143 25% 18%;
-    --accent-foreground: 143 40% 65%;
-
-    --destructive: 0 62% 45%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 150 10% 18%;
-    --input: 150 10% 18%;
-    --ring: 143 40% 50%;
-
-    /* Sidebar - dark */
-    --sidebar-background: 150 15% 5%;
-    --sidebar-foreground: 60 9% 90%;
-    --sidebar-primary: 143 40% 50%;
-    --sidebar-primary-foreground: 150 15% 6%;
-    --sidebar-accent: 143 25% 15%;
-    --sidebar-accent-foreground: 143 40% 65%;
-    --sidebar-border: 150 10% 15%;
-    --sidebar-ring: 143 40% 50%;
-
-    /* Custom tokens - dark */
-    --success: 143 50% 45%;
-    --success-foreground: 150 15% 6%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 38 92% 10%;
+  /* Light mode override (optional toggle) */
+  .light {
+    --background: 60 9% 98%;
+    --foreground: 150 10% 10%;
+    --card: 60 9% 100%;
+    --card-foreground: 150 10% 10%;
+    --popover: 60 9% 100%;
+    --popover-foreground: 150 10% 10%;
+    --primary: 152 40% 38%;
+    --primary-foreground: 60 9% 98%;
+    --secondary: 150 8% 92%;
+    --secondary-foreground: 150 10% 15%;
+    --muted: 150 8% 94%;
+    --muted-foreground: 150 6% 45%;
+    --accent: 152 20% 90%;
+    --accent-foreground: 152 40% 25%;
+    --border: 150 10% 88%;
+    --input: 150 10% 88%;
   }
 }
 
@@ -113,22 +88,53 @@
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground antialiased;
+  html {
+    color-scheme: dark;
   }
 
-  /* Force dark mode by default */
-  html {
-    @apply dark;
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply backdrop-blur-md bg-card/80;
+    @apply backdrop-blur-xl bg-card/60 border border-border/50;
   }
   
-  .gradient-moss {
-    background: linear-gradient(135deg, hsl(143 40% 50%) 0%, hsl(150 35% 35%) 100%);
+  .glass-strong {
+    @apply backdrop-blur-2xl bg-card/80 border border-border/60;
+  }
+  
+  .glow {
+    box-shadow: 0 0 40px -10px hsl(var(--primary) / 0.4);
+  }
+  
+  .glow-sm {
+    box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.3);
+  }
+  
+  .gradient-border {
+    background: linear-gradient(var(--background), var(--background)) padding-box,
+                linear-gradient(135deg, hsl(var(--primary)), hsl(var(--glow-secondary))) border-box;
+    border: 1px solid transparent;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(152 50% 55%) 0%, hsl(180 45% 50%) 100%);
+  }
+  
+  .bg-grid {
+    background-image: 
+      linear-gradient(to right, hsl(var(--border) / 0.3) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
   }
 }

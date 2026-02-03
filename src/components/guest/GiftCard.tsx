@@ -1,5 +1,4 @@
 import { Gift, ExternalLink, Check, ShoppingBag } from 'lucide-react';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { GiftWithReservation } from '@/types/gift';
@@ -10,96 +9,114 @@ interface GiftCardProps {
 }
 
 const categoryColors: Record<string, string> = {
-  'Cozinha': 'bg-primary/15 text-primary border-primary/20',
-  'Eletrodomésticos': 'bg-blue-500/15 text-blue-400 border-blue-500/20',
-  'Decoração': 'bg-pink-500/15 text-pink-400 border-pink-500/20',
-  'Mesa e Bar': 'bg-purple-500/15 text-purple-400 border-purple-500/20',
-  'Utilidades': 'bg-amber-500/15 text-amber-400 border-amber-500/20',
+  'Cozinha': 'bg-primary/20 text-primary border-primary/30',
+  'Eletrodomésticos': 'bg-sky-500/20 text-sky-400 border-sky-500/30',
+  'Decoração': 'bg-rose-500/20 text-rose-400 border-rose-500/30',
+  'Mesa e Bar': 'bg-violet-500/20 text-violet-400 border-violet-500/30',
+  'Utilidades': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
   'Outros': 'bg-muted text-muted-foreground border-border',
 };
 
 export function GiftCard({ gift, onReserve }: GiftCardProps) {
   return (
-    <Card className={`group relative overflow-hidden border-border/50 bg-card/80 backdrop-blur-sm transition-all duration-300 ${
+    <div className={`group relative overflow-hidden rounded-2xl border border-border/50 bg-card/60 backdrop-blur-sm transition-all duration-500 ${
       gift.is_reserved 
-        ? 'opacity-60' 
-        : 'hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1'
+        ? 'opacity-50' 
+        : 'hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2'
     }`}>
-      <div className="relative aspect-square overflow-hidden bg-muted/50">
+      {/* Glow effect on hover */}
+      {!gift.is_reserved && (
+        <div className="pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      )}
+      
+      <div className="relative aspect-[4/3] overflow-hidden bg-muted/30">
         {gift.image_url ? (
           <img
             src={gift.image_url}
             alt={gift.name}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-muted to-muted/50">
-            <Gift className="h-16 w-16 text-muted-foreground/30" />
+          <div className="flex h-full w-full items-center justify-center">
+            <div className="rounded-2xl bg-muted/50 p-6">
+              <Gift className="h-12 w-12 text-muted-foreground/30" />
+            </div>
           </div>
         )}
-        <div className="absolute right-3 top-3">
+        
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
+        
+        {/* Category badge */}
+        <div className="absolute left-4 top-4">
           <Badge 
             variant="outline" 
-            className={`border backdrop-blur-sm ${categoryColors[gift.category] || categoryColors['Outros']}`}
+            className={`border backdrop-blur-md text-xs font-medium ${categoryColors[gift.category] || categoryColors['Outros']}`}
           >
             {gift.category}
           </Badge>
         </div>
+        
+        {/* Reserved overlay */}
         {gift.is_reserved && (
-          <div className="absolute inset-0 flex items-center justify-center bg-background/90 backdrop-blur-sm">
-            <div className="flex flex-col items-center gap-2">
-              <div className="rounded-full bg-primary/20 p-3">
+          <div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+            <div className="flex flex-col items-center gap-3">
+              <div className="rounded-full bg-primary/20 p-4 ring-4 ring-primary/10">
                 <Check className="h-8 w-8 text-primary" />
               </div>
-              <span className="text-sm font-medium text-muted-foreground">Reservado</span>
+              <span className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                Reservado
+              </span>
             </div>
           </div>
         )}
       </div>
-      <CardContent className="p-5">
-        <h3 className="mb-2 font-display text-lg font-semibold text-foreground">
+      
+      <div className="relative p-5">
+        <h3 className="mb-2 font-display text-lg font-semibold text-foreground line-clamp-1">
           {gift.name}
         </h3>
         {gift.description && (
-          <p className="text-sm leading-relaxed text-muted-foreground line-clamp-2">
+          <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">
             {gift.description}
           </p>
         )}
-      </CardContent>
-      <CardFooter className="flex gap-3 p-5 pt-0">
-        {gift.purchase_link && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex-1 border-border/50 hover:border-primary/30 hover:bg-primary/5"
-            asChild
-          >
-            <a href={gift.purchase_link} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Ver produto
-            </a>
-          </Button>
-        )}
-        <Button
-          size="sm"
-          className={`flex-1 ${
-            gift.is_reserved 
-              ? 'bg-muted text-muted-foreground' 
-              : 'bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20'
-          }`}
-          disabled={gift.is_reserved}
-          onClick={() => onReserve(gift)}
-        >
-          {gift.is_reserved ? (
-            'Indisponível'
-          ) : (
-            <>
-              <ShoppingBag className="mr-2 h-4 w-4" />
-              Vou presentear
-            </>
+        
+        <div className="flex gap-3">
+          {gift.purchase_link && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1 border-border/50 bg-transparent hover:border-primary/40 hover:bg-primary/5"
+              asChild
+            >
+              <a href={gift.purchase_link} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="mr-2 h-4 w-4" />
+                Ver
+              </a>
+            </Button>
           )}
-        </Button>
-      </CardFooter>
-    </Card>
+          <Button
+            size="sm"
+            className={`flex-1 transition-all duration-300 ${
+              gift.is_reserved 
+                ? 'bg-muted text-muted-foreground' 
+                : 'bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30'
+            }`}
+            disabled={gift.is_reserved}
+            onClick={() => onReserve(gift)}
+          >
+            {gift.is_reserved ? (
+              'Indisponível'
+            ) : (
+              <>
+                <ShoppingBag className="mr-2 h-4 w-4" />
+                Presentear
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 }
