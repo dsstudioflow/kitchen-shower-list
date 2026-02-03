@@ -89,23 +89,28 @@ export function ReservationModal({ gift, open, onOpenChange }: ReservationModalP
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="border-border/50 bg-card/95 backdrop-blur-xl sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Heart className="h-5 w-5 text-primary" />
+          <DialogTitle className="flex items-center gap-3 font-display text-xl">
+            <div className="rounded-xl bg-primary/20 p-2">
+              <Heart className="h-5 w-5 text-primary" />
+            </div>
             Confirmar Presente
           </DialogTitle>
-          <DialogDescription>
-            {gift && `Você está prestes a reservar: ${gift.name}`}
+          <DialogDescription className="text-muted-foreground">
+            {gift && (
+              <>Você está prestes a reservar: <span className="font-medium text-foreground">{gift.name}</span></>
+            )}
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="guest_name">Seu nome</Label>
+            <Label htmlFor="guest_name" className="text-sm font-medium">Seu nome</Label>
             <Input
               id="guest_name"
               placeholder="Digite seu nome completo"
+              className="h-12 rounded-xl border-border/50 bg-muted/50 transition-all focus:border-primary/50 focus:bg-background focus:ring-2 focus:ring-primary/20"
               {...register('guest_name')}
             />
             {errors.guest_name && (
@@ -114,11 +119,12 @@ export function ReservationModal({ gift, open, onOpenChange }: ReservationModalP
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="guest_email">Seu e-mail</Label>
+            <Label htmlFor="guest_email" className="text-sm font-medium">Seu e-mail</Label>
             <Input
               id="guest_email"
               type="email"
               placeholder="seu@email.com"
+              className="h-12 rounded-xl border-border/50 bg-muted/50 transition-all focus:border-primary/50 focus:bg-background focus:ring-2 focus:ring-primary/20"
               {...register('guest_email')}
             />
             {errors.guest_email && (
@@ -127,47 +133,56 @@ export function ReservationModal({ gift, open, onOpenChange }: ReservationModalP
           </div>
 
           <div className="space-y-3">
-            <Label>Como você vai presentear?</Label>
+            <Label className="text-sm font-medium">Como você vai presentear?</Label>
             <RadioGroup
               defaultValue="individual"
               onValueChange={(value) => setIsCouple(value === 'couple')}
-              className="flex gap-4"
+              className="flex gap-3"
             >
-              <div className="flex items-center space-x-2">
+              <div 
+                className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border p-4 transition-all ${
+                  !isCouple 
+                    ? 'border-primary/50 bg-primary/10 text-primary' 
+                    : 'border-border/50 bg-muted/30 text-muted-foreground hover:border-border hover:bg-muted/50'
+                }`}
+                onClick={() => setIsCouple(false)}
+              >
                 <RadioGroupItem
                   value="individual"
                   id="individual"
-                  {...register('is_couple', {
-                    setValueAs: () => false,
-                  })}
+                  className="sr-only"
+                  {...register('is_couple', { setValueAs: () => false })}
                 />
-                <Label htmlFor="individual" className="flex items-center gap-1 cursor-pointer">
-                  <User className="h-4 w-4" />
-                  Individual
-                </Label>
+                <User className="h-5 w-5" />
+                <span className="font-medium">Individual</span>
               </div>
-              <div className="flex items-center space-x-2">
+              <div 
+                className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border p-4 transition-all ${
+                  isCouple 
+                    ? 'border-primary/50 bg-primary/10 text-primary' 
+                    : 'border-border/50 bg-muted/30 text-muted-foreground hover:border-border hover:bg-muted/50'
+                }`}
+                onClick={() => setIsCouple(true)}
+              >
                 <RadioGroupItem
                   value="couple"
                   id="couple"
-                  {...register('is_couple', {
-                    setValueAs: () => true,
-                  })}
+                  className="sr-only"
+                  {...register('is_couple', { setValueAs: () => true })}
                 />
-                <Label htmlFor="couple" className="flex items-center gap-1 cursor-pointer">
-                  <Users className="h-4 w-4" />
-                  Em casal
-                </Label>
+                <Users className="h-5 w-5" />
+                <span className="font-medium">Em casal</span>
               </div>
             </RadioGroup>
           </div>
 
           {isCouple && (
-            <div className="space-y-2">
-              <Label htmlFor="spouse_name">Nome do cônjuge</Label>
+            <div className="space-y-2 animate-fade-in">
+              <Label htmlFor="spouse_name" className="text-sm font-medium">Nome do cônjuge</Label>
               <Input
                 id="spouse_name"
                 placeholder="Digite o nome do seu cônjuge"
+                className="h-12 rounded-xl border-border/50 bg-muted/50 transition-all focus:border-primary/50 focus:bg-background focus:ring-2 focus:ring-primary/20"
                 {...register('spouse_name')}
               />
               {errors.spouse_name && (
@@ -176,18 +191,18 @@ export function ReservationModal({ gift, open, onOpenChange }: ReservationModalP
             </div>
           )}
 
-          <div className="flex gap-2 pt-4">
+          <div className="flex gap-3 pt-4">
             <Button
               type="button"
               variant="outline"
-              className="flex-1"
+              className="flex-1 h-12 rounded-xl border-border/50 bg-transparent hover:bg-muted"
               onClick={() => onOpenChange(false)}
             >
               Cancelar
             </Button>
             <Button
               type="submit"
-              className="flex-1"
+              className="flex-1 h-12 rounded-xl bg-primary shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30"
               disabled={reserveGift.isPending}
             >
               {reserveGift.isPending ? 'Reservando...' : 'Confirmar'}
