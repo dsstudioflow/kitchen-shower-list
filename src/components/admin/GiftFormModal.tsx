@@ -123,6 +123,7 @@ export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) 
         purchase_link: data.purchase_link || null,
         category: data.category as GiftCategory,
         image_url: imageUrl,
+        price: data.price ? parseFloat(data.price) : null,
       };
 
       if (gift) {
