@@ -1,17 +1,17 @@
 export type GiftCategory = 
   | 'Cozinha' 
-  | 'Eletrodomésticos' 
-  | 'Decoração' 
-  | 'Mesa e Bar' 
-  | 'Utilidades' 
+  | 'Quarto' 
+  | 'Sala' 
+  | 'Banheiro' 
+  | 'Área de Serviço' 
   | 'Outros';
 
 export const GIFT_CATEGORIES: GiftCategory[] = [
   'Cozinha',
-  'Eletrodomésticos',
-  'Decoração',
-  'Mesa e Bar',
-  'Utilidades',
+  'Quarto',
+  'Sala',
+  'Banheiro',
+  'Área de Serviço',
   'Outros',
 ];
 

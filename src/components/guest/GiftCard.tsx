@@ -10,10 +10,10 @@ interface GiftCardProps {
 
 const categoryColors: Record<string, string> = {
   'Cozinha': 'bg-primary/20 text-primary border-primary/30',
-  'Eletrodomésticos': 'bg-sky-500/20 text-sky-400 border-sky-500/30',
-  'Decoração': 'bg-rose-500/20 text-rose-400 border-rose-500/30',
-  'Mesa e Bar': 'bg-violet-500/20 text-violet-400 border-violet-500/30',
-  'Utilidades': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+  'Quarto': 'bg-violet-500/20 text-violet-400 border-violet-500/30',
+  'Sala': 'bg-sky-500/20 text-sky-400 border-sky-500/30',
+  'Banheiro': 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+  'Área de Serviço': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
   'Outros': 'bg-muted text-muted-foreground border-border',
 };
 
@@ -47,7 +47,7 @@ export function GiftCard({ gift, onReserve }: GiftCardProps) {
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
         
-        {/* Category badge */}
+        {/* Category badge - left */}
         <div className="absolute left-4 top-4">
           <Badge 
             variant="outline" 
@@ -56,6 +56,15 @@ export function GiftCard({ gift, onReserve }: GiftCardProps) {
             {gift.category}
           </Badge>
         </div>
+        
+        {/* Price badge - right */}
+        {gift.price !== null && gift.price > 0 && (
+          <div className="absolute right-4 top-4">
+            <span className="rounded-full bg-background/80 px-3 py-1.5 text-sm font-bold text-primary backdrop-blur-md">
+              {formatPrice(gift.price)}
+            </span>
+          </div>
+        )}
         
         {/* Reserved overlay */}
         {gift.is_reserved && (
@@ -73,16 +82,14 @@ export function GiftCard({ gift, onReserve }: GiftCardProps) {
       </div>
       
       <div className="relative p-5">
-        <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="font-display text-lg font-semibold text-foreground line-clamp-1">
-            {gift.name}
-          </h3>
-          {gift.price !== null && gift.price > 0 && (
-            <span className="shrink-0 text-lg font-bold text-primary">
-              {formatPrice(gift.price)}
-            </span>
-          )}
-        </div>
+        <h3 className="mb-2 font-display text-lg font-semibold text-foreground line-clamp-1">
+          {gift.name}
+        </h3>
+        {gift.description && (
+          <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">
+            {gift.description}
+          </p>
+        )}
         {gift.description && (
           <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">
             {gift.description}
