@@ -43,7 +43,7 @@ interface GiftFormModalProps {
 
 export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(gift?.image_url || null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
