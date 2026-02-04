@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Upload, X, Link } from 'lucide-react';
+import { Upload, X, Link, DollarSign } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -30,6 +30,7 @@ const giftSchema = z.object({
   description: z.string().optional(),
   purchase_link: z.string().url('URL inválida').optional().or(z.literal('')),
   category: z.string(),
+  price: z.string().optional(),
 });
 
 type GiftFormData = z.infer<typeof giftSchema>;
@@ -63,6 +64,7 @@ export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) 
       description: gift?.description || '',
       purchase_link: gift?.purchase_link || '',
       category: gift?.category || 'Outros',
+      price: gift?.price?.toString() || '',
     },
   });
 
@@ -121,6 +123,7 @@ export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) 
         purchase_link: data.purchase_link || null,
         category: data.category as GiftCategory,
         image_url: imageUrl,
+        price: data.price ? parseFloat(data.price) : null,
       };
 
       if (gift) {
@@ -237,6 +240,23 @@ export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) 
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          {/* Price */}
+          <div className="space-y-2">
+            <Label htmlFor="price">Valor (R$)</Label>
+            <div className="relative">
+              <DollarSign className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                id="price"
+                type="number"
+                step="0.01"
+                min="0"
+                placeholder="0,00"
+                className="pl-10"
+                {...register('price')}
+              />
+            </div>
           </div>
 
           {/* Purchase Link */}
