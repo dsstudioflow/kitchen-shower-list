@@ -10,10 +10,10 @@ interface GiftCardProps {
 
 const categoryColors: Record<string, string> = {
   'Cozinha': 'bg-primary/20 text-primary border-primary/30',
-  'Eletrodomésticos': 'bg-sky-500/20 text-sky-400 border-sky-500/30',
-  'Decoração': 'bg-rose-500/20 text-rose-400 border-rose-500/30',
-  'Mesa e Bar': 'bg-violet-500/20 text-violet-400 border-violet-500/30',
-  'Utilidades': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+  'Quarto': 'bg-violet-500/20 text-violet-400 border-violet-500/30',
+  'Sala': 'bg-sky-500/20 text-sky-400 border-sky-500/30',
+  'Banheiro': 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+  'Área de Serviço': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
   'Outros': 'bg-muted text-muted-foreground border-border',
 };
 
