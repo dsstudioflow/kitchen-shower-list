@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Upload, X, Link } from 'lucide-react';
+import { Upload, X, Link, DollarSign } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
