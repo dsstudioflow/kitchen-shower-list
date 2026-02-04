@@ -82,16 +82,14 @@ export function GiftCard({ gift, onReserve }: GiftCardProps) {
       </div>
       
       <div className="relative p-5">
-        <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="font-display text-lg font-semibold text-foreground line-clamp-1">
-            {gift.name}
-          </h3>
-          {gift.price !== null && gift.price > 0 && (
-            <span className="shrink-0 text-lg font-bold text-primary">
-              {formatPrice(gift.price)}
-            </span>
-          )}
-        </div>
+        <h3 className="mb-2 font-display text-lg font-semibold text-foreground line-clamp-1">
+          {gift.name}
+        </h3>
+        {gift.description && (
+          <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">
+            {gift.description}
+          </p>
+        )}
         {gift.description && (
           <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">
             {gift.description}
