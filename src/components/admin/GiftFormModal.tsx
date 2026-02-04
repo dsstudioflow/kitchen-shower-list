@@ -30,6 +30,7 @@ const giftSchema = z.object({
   description: z.string().optional(),
   purchase_link: z.string().url('URL inválida').optional().or(z.literal('')),
   category: z.string(),
+  price: z.string().optional(),
 });
 
 type GiftFormData = z.infer<typeof giftSchema>;
