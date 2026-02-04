@@ -244,7 +244,7 @@ export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) 
           <div className="space-y-2">
             <Label htmlFor="category">Categoria</Label>
             <Select
-              defaultValue={gift?.category || 'Outros'}
+              value={selectedCategory}
               onValueChange={(value) => setValue('category', value)}
             >
               <SelectTrigger>
