@@ -22,9 +22,18 @@ export interface Gift {
   image_url: string | null;
   purchase_link: string | null;
   category: GiftCategory;
+  price: number | null;
   is_reserved: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export function formatPrice(price: number | null): string {
+  if (price === null || price === undefined) return '';
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(price);
 }
 
 export interface Reservation {
