@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -43,7 +43,7 @@ interface GiftFormModalProps {
 
 export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(gift?.image_url || null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -56,17 +56,35 @@ export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) 
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<GiftFormData>({
     resolver: zodResolver(giftSchema),
     defaultValues: {
-      name: gift?.name || '',
-      description: gift?.description || '',
-      purchase_link: gift?.purchase_link || '',
-      category: gift?.category || 'Outros',
-      price: gift?.price?.toString() || '',
+      name: '',
+      description: '',
+      purchase_link: '',
+      category: 'Outros',
+      price: '',
     },
   });
+
+  const selectedCategory = watch('category');
+
+  // Reset form when gift changes or modal opens
+  useEffect(() => {
+    if (open) {
+      reset({
+        name: gift?.name || '',
+        description: gift?.description || '',
+        purchase_link: gift?.purchase_link || '',
+        category: gift?.category || 'Outros',
+        price: gift?.price?.toString() || '',
+      });
+      setImagePreview(gift?.image_url || null);
+      setImageFile(null);
+    }
+  }, [gift, open, reset]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -226,7 +244,7 @@ export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) 
           <div className="space-y-2">
             <Label htmlFor="category">Categoria</Label>
             <Select
-              defaultValue={gift?.category || 'Outros'}
+              value={selectedCategory}
               onValueChange={(value) => setValue('category', value)}
             >
               <SelectTrigger>
