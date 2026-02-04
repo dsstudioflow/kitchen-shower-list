@@ -1,7 +1,7 @@
 import { Gift, ExternalLink, Check, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import type { GiftWithReservation } from '@/types/gift';
+import { type GiftWithReservation, formatPrice } from '@/types/gift';
 
 interface GiftCardProps {
   gift: GiftWithReservation;
