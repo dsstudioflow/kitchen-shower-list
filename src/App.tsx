@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminGifts from "./pages/admin/Gifts";
 import AdminReservations from "./pages/admin/Reservations";
+import { AdminFloatingNav } from "./components/admin/AdminFloatingNav";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <AdminFloatingNav />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
