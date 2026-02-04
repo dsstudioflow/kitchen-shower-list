@@ -47,7 +47,7 @@ export function GiftCard({ gift, onReserve }: GiftCardProps) {
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
         
-        {/* Category badge */}
+        {/* Category badge - left */}
         <div className="absolute left-4 top-4">
           <Badge 
             variant="outline" 
@@ -56,6 +56,15 @@ export function GiftCard({ gift, onReserve }: GiftCardProps) {
             {gift.category}
           </Badge>
         </div>
+        
+        {/* Price badge - right */}
+        {gift.price !== null && gift.price > 0 && (
+          <div className="absolute right-4 top-4">
+            <span className="rounded-full bg-background/80 px-3 py-1.5 text-sm font-bold text-primary backdrop-blur-md">
+              {formatPrice(gift.price)}
+            </span>
+          </div>
+        )}
         
         {/* Reserved overlay */}
         {gift.is_reserved && (
