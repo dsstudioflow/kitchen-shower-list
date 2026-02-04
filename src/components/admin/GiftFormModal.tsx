@@ -64,6 +64,7 @@ export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) 
       description: gift?.description || '',
       purchase_link: gift?.purchase_link || '',
       category: gift?.category || 'Outros',
+      price: gift?.price?.toString() || '',
     },
   });
 
