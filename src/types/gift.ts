@@ -24,6 +24,7 @@ export interface Gift {
   category: GiftCategory;
   price: number | null;
   is_reserved: boolean;
+  profile_id: string | null;
   created_at: string;
   updated_at: string;
 }
