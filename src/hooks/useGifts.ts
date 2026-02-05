@@ -2,20 +2,30 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Gift, GiftWithReservation, Reservation, GiftCategory } from '@/types/gift';
 
-export function useGifts() {
+// Hook para buscar presentes do casal autenticado
+export function useGifts(profileId?: string) {
   return useQuery({
-    queryKey: ['gifts'],
+    queryKey: ['gifts', profileId],
     queryFn: async (): Promise<GiftWithReservation[]> => {
-      const { data: gifts, error: giftsError } = await supabase
+      let query = supabase
         .from('gifts')
         .select('*')
         .order('created_at', { ascending: false });
 
+      if (profileId) {
+        query = query.eq('profile_id', profileId);
+      }
+
+      const { data: gifts, error: giftsError } = await query;
+
       if (giftsError) throw giftsError;
 
+      const giftIds = (gifts || []).map(g => g.id);
+      
       const { data: reservations, error: reservationsError } = await supabase
         .from('reservations')
-        .select('*');
+        .select('*')
+        .in('gift_id', giftIds.length > 0 ? giftIds : ['']);
 
       if (reservationsError) throw reservationsError;
 
@@ -25,6 +35,52 @@ export function useGifts() {
         reservation: reservations?.find((r) => r.gift_id === gift.id),
       }));
     },
+    enabled: profileId !== undefined,
+  });
+}
+
+// Hook para buscar presentes via slug (para convidados)
+export function useGiftsBySlug(slug?: string) {
+  return useQuery({
+    queryKey: ['gifts-by-slug', slug],
+    queryFn: async (): Promise<GiftWithReservation[]> => {
+      if (!slug) return [];
+
+      // Primeiro busca o perfil pelo slug
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('share_slug', slug)
+        .maybeSingle();
+
+      if (profileError) throw profileError;
+      if (!profile) return [];
+
+      // Depois busca os presentes do perfil
+      const { data: gifts, error: giftsError } = await supabase
+        .from('gifts')
+        .select('*')
+        .eq('profile_id', profile.id)
+        .order('created_at', { ascending: false });
+
+      if (giftsError) throw giftsError;
+
+      const giftIds = (gifts || []).map(g => g.id);
+      
+      const { data: reservations, error: reservationsError } = await supabase
+        .from('reservations')
+        .select('*')
+        .in('gift_id', giftIds.length > 0 ? giftIds : ['']);
+
+      if (reservationsError) throw reservationsError;
+
+      return (gifts || []).map((gift) => ({
+        ...gift,
+        category: gift.category as GiftCategory,
+        reservation: reservations?.find((r) => r.gift_id === gift.id),
+      }));
+    },
+    enabled: !!slug,
   });
 }
 

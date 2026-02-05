@@ -39,9 +39,10 @@ interface GiftFormModalProps {
   gift?: Gift | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  profileId?: string;
 }
 
-export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) {
+export function GiftFormModal({ gift, open, onOpenChange, profileId }: GiftFormModalProps) {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -142,6 +143,7 @@ export function GiftFormModal({ gift, open, onOpenChange }: GiftFormModalProps) 
         category: data.category as GiftCategory,
         image_url: imageUrl,
         price: data.price ? parseFloat(data.price) : null,
+        profile_id: profileId,
       };
 
       if (gift) {
