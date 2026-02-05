@@ -1,101 +1,204 @@
 
+# Plano: Sistema Multi-Tenant de Listas de Presentes
 
-# Chá de Cozinha - Plano do Projeto
+## Visao Geral
 
-## Visão Geral
-Aplicação web responsiva e elegante para organização de Chá de Cozinha, permitindo que convidados escolham presentes de uma lista pré-definida pelo casal, evitando duplicidades.
+Transformar a aplicacao de uma unica lista para um sistema onde multiplos casais podem criar suas proprias listas de presentes isoladas, cada uma com um link unico de compartilhamento.
 
----
+## Fluxo de Usuario
 
-## 🎨 Design & Experiência
+```text
++------------------+     +-------------------+     +--------------------+
+|  Casal acessa    | --> |  Cadastro/Login   | --> |  Painel do Casal   |
+|  a plataforma    |     |  com email/senha  |     |  (gerencia lista)  |
++------------------+     +-------------------+     +--------------------+
+                                                            |
+                                                            v
+                                                   +--------------------+
+                                                   |  Gera link unico   |
+                                                   |  /lista/abc123     |
+                                                   +--------------------+
+                                                            |
+                                                            v
+                                                   +--------------------+
+                                                   |  Convidado acessa  |
+                                                   |  link e ve apenas  |
+                                                   |  a lista do casal  |
+                                                   +--------------------+
+```
 
-**Estilo Visual**
-- Design moderno e minimalista com cores neutras (tons de cinza, branco, com acentos sutis)
-- Tipografia limpa e espaçamento generoso
-- Cards elegantes com sombras suaves
-- Mobile-first com responsividade total
+## Alteracoes no Banco de Dados
 
----
+### 1. Tabela de perfis de casais (profiles)
 
-## 📱 Área do Convidado (Pública)
+```sql
+CREATE TABLE public.profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  partner_name_1 TEXT NOT NULL,
+  partner_name_2 TEXT,
+  event_name TEXT DEFAULT 'Cha de Cozinha',
+  event_date DATE,
+  share_slug TEXT UNIQUE NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
 
-**Página Inicial**
-- Mensagem de boas-vindas do casal (personalizável)
-- Lista de presentes organizada por categorias
-- Filtro por categoria e busca por nome
-- Indicação visual clara: disponível ✓ ou reservado ✗
+O `share_slug` sera o identificador unico do link (ex: `/lista/ana-e-joao-2026`).
 
-**Card do Presente**
-- Imagem do item (upload pelo casal)
-- Nome e descrição
-- Categoria (badge colorido)
-- Botão para acessar link de compra
-- Botão "Vou presentear" (apenas para disponíveis)
+### 2. Vincular presentes aos casais
 
-**Fluxo de Reserva**
-- Modal elegante com formulário simples
-- Campos: Nome, E-mail
-- Opção: "Presentear sozinho" ou "Presentear como casal" (campo extra para cônjuge)
-- Confirmação com mensagem de agradecimento
-- Item imediatamente bloqueado após confirmação
+Adicionar coluna `profile_id` na tabela `gifts`:
 
----
+```sql
+ALTER TABLE public.gifts 
+ADD COLUMN profile_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE;
+```
 
-## 👩‍❤️‍👨 Área Administrativa (Casal)
+### 3. Atualizar politicas RLS
 
-**Dashboard**
-- Métricas visuais: total de itens, reservados, disponíveis
-- Gráfico de progresso (barra ou pizza)
-- Lista rápida dos últimos presentes reservados
+**Para `gifts`:**
+- Casais autenticados podem CRUD apenas seus proprios presentes
+- Visitantes podem VER presentes de qualquer lista (via slug publico)
 
-**Gestão de Presentes**
-- Listagem com filtros e busca
-- Para cada item:
-  - Nome, descrição, link de compra
-  - Upload de imagem
-  - Categoria (Cozinha, Eletrodomésticos, Decoração, Mesa e Bar, Utilidades, Outros)
-  - Status (disponível/reservado)
-- Ações: Adicionar, Editar, Remover
-- Opção para liberar item reservado (se convidado desistir)
+**Para `reservations`:**
+- Qualquer pessoa pode criar reserva (convidado nao precisa de conta)
+- Casais podem ver/deletar reservas dos seus presentes
 
-**Visualização de Reservas**
-- Ver quem escolheu cada item
-- Nome do convidado e e-mail
-- Se é presente individual ou de casal
-- Data da reserva
+### 4. Sistema de roles (seguranca)
 
----
+```sql
+CREATE TYPE public.app_role AS ENUM ('admin', 'couple');
 
-## 🔧 Funcionalidades Técnicas (MVP)
+CREATE TABLE public.user_roles (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  role app_role NOT NULL,
+  UNIQUE(user_id, role)
+);
+```
 
-**Banco de Dados (Supabase)**
-- Tabela de presentes (itens, categorias, status)
-- Tabela de reservas (dados do convidado, vínculo com presente)
-- Storage para imagens dos itens
-- Controle de concorrência para evitar duplicidade
+## Novas Rotas da Aplicacao
 
-**Preparação para o Futuro**
-- Arquitetura pronta para autenticação
-- Rotas separadas: `/admin` (casal) e `/` (convidados)
-- Código modular e organizado
+| Rota | Descricao | Acesso |
+|------|-----------|--------|
+| `/` | Landing page da plataforma | Publico |
+| `/auth` | Login/Cadastro de casais | Publico |
+| `/dashboard` | Painel do casal logado | Autenticado |
+| `/dashboard/presentes` | Gerenciar presentes | Autenticado |
+| `/dashboard/reservas` | Ver reservas | Autenticado |
+| `/dashboard/configuracoes` | Configurar evento e link | Autenticado |
+| `/lista/:slug` | Lista publica para convidados | Publico |
 
----
+## Componentes e Paginas a Criar/Modificar
 
-## ⏳ O que fica para depois
+### Novos Arquivos
 
-- **Autenticação**: login do casal (quando você solicitar)
-- **Notificações por e-mail**: alertas quando presente for reservado
-- **Histórico e relatórios**: pós-evento
+1. **`src/pages/Auth.tsx`** - Pagina de login/cadastro
+2. **`src/pages/Landing.tsx`** - Pagina inicial da plataforma
+3. **`src/pages/dashboard/*`** - Refatorar admin para dashboard do casal
+4. **`src/pages/GuestList.tsx`** - Lista publica (substitui Index atual)
+5. **`src/hooks/useAuth.ts`** - Hook de autenticacao
+6. **`src/hooks/useProfile.ts`** - Hook para perfil do casal
+7. **`src/contexts/AuthContext.tsx`** - Contexto de autenticacao
+8. **`src/components/dashboard/ShareLinkCard.tsx`** - Componente para copiar link
 
----
+### Modificacoes
 
-## 📂 Estrutura de Páginas
+1. **`src/App.tsx`** - Novas rotas e protecao de rotas
+2. **`src/hooks/useGifts.ts`** - Filtrar por `profile_id` ou `slug`
+3. **`src/components/admin/*`** - Renomear para dashboard e adicionar contexto de perfil
 
-| Rota | Descrição |
-|------|-----------|
-| `/` | Página inicial com lista de presentes |
-| `/presente/:id` | Detalhes do presente e formulário de reserva |
-| `/admin` | Dashboard do casal |
-| `/admin/presentes` | Gestão completa dos itens |
-| `/admin/reservas` | Visualização de todas as reservas |
+## Detalhes Tecnicos
+
+### Hook de Autenticacao
+
+```typescript
+// src/hooks/useAuth.ts
+export function useAuth() {
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  return { user, session, loading };
+}
+```
+
+### Geracao de Slug Unico
+
+```typescript
+function generateSlug(name1: string, name2?: string): string {
+  const base = name2 
+    ? `${name1}-e-${name2}`.toLowerCase()
+    : name1.toLowerCase();
+  const normalized = base
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9-]/g, '-');
+  const random = Math.random().toString(36).substring(2, 6);
+  return `${normalized}-${random}`;
+}
+```
+
+### Queries Atualizadas
+
+**Para o casal (autenticado):**
+```typescript
+const { data } = await supabase
+  .from('gifts')
+  .select('*')
+  .eq('profile_id', profile.id);
+```
+
+**Para convidados (via slug):**
+```typescript
+const { data: profile } = await supabase
+  .from('profiles')
+  .select('id')
+  .eq('share_slug', slug)
+  .single();
+
+const { data: gifts } = await supabase
+  .from('gifts')
+  .select('*')
+  .eq('profile_id', profile.id);
+```
+
+## Ordem de Implementacao
+
+1. Criar migrations do banco (profiles, user_roles, alteracao em gifts)
+2. Atualizar politicas RLS com seguranca adequada
+3. Implementar sistema de autenticacao (Auth.tsx, useAuth, AuthContext)
+4. Criar pagina de onboarding para novos casais (criar perfil)
+5. Refatorar area admin para dashboard do casal
+6. Criar componente de compartilhamento de link
+7. Criar rota publica `/lista/:slug` para convidados
+8. Atualizar navbar flutuante para mostrar apenas para casais logados
+9. Criar landing page atrativa
+
+## Consideracoes de Seguranca
+
+- Roles armazenadas em tabela separada (nao no perfil)
+- RLS baseada em `auth.uid()` para operacoes de escrita
+- Slugs unicos para evitar colisao
+- Validacao de email no cadastro (opcional: confirmar email)
+- Funcao `has_role` com SECURITY DEFINER para evitar recursao RLS
 
