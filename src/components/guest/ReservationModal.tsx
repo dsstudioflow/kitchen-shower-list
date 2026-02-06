@@ -138,46 +138,32 @@ export function ReservationModal({ gift, open, onOpenChange }: ReservationModalP
 
           <div className="space-y-3">
             <Label className="text-sm font-medium">Como você vai presentear?</Label>
-            <RadioGroup
-              defaultValue="individual"
-              onValueChange={(value) => setIsCouple(value === 'couple')}
-              className="flex gap-3"
-            >
-              <div 
+            <div className="flex gap-3">
+              <button
+                type="button"
                 className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border p-4 transition-all ${
                   !isCouple 
                     ? 'border-primary/50 bg-primary/10 text-primary' 
                     : 'border-border/50 bg-muted/30 text-muted-foreground hover:border-border hover:bg-muted/50'
                 }`}
-                onClick={() => setIsCouple(false)}
+                onClick={() => setValue('is_couple', false)}
               >
-                <RadioGroupItem
-                  value="individual"
-                  id="individual"
-                  className="sr-only"
-                  {...register('is_couple', { setValueAs: () => false })}
-                />
                 <User className="h-5 w-5" />
                 <span className="font-medium">Individual</span>
-              </div>
-              <div 
+              </button>
+              <button
+                type="button"
                 className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border p-4 transition-all ${
                   isCouple 
                     ? 'border-primary/50 bg-primary/10 text-primary' 
                     : 'border-border/50 bg-muted/30 text-muted-foreground hover:border-border hover:bg-muted/50'
                 }`}
-                onClick={() => setIsCouple(true)}
+                onClick={() => setValue('is_couple', true)}
               >
-                <RadioGroupItem
-                  value="couple"
-                  id="couple"
-                  className="sr-only"
-                  {...register('is_couple', { setValueAs: () => true })}
-                />
                 <Users className="h-5 w-5" />
                 <span className="font-medium">Em casal</span>
-              </div>
-            </RadioGroup>
+              </button>
+            </div>
           </div>
 
           {isCouple && (
