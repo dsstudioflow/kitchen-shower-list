@@ -148,11 +148,9 @@ export function useReserveGift() {
 
   return useMutation({
     mutationFn: async (reservation: Omit<Reservation, 'id' | 'created_at'>) => {
-      // First, update the gift as reserved
+      // First, update the gift as reserved using SECURITY DEFINER function
       const { error: updateError } = await supabase
-        .from('gifts')
-        .update({ is_reserved: true })
-        .eq('id', reservation.gift_id);
+        .rpc('set_gift_reserved', { gift_id: reservation.gift_id, reserved: true });
 
       if (updateError) throw updateError;
 
@@ -166,9 +164,7 @@ export function useReserveGift() {
       if (error) {
         // Rollback if reservation fails
         await supabase
-          .from('gifts')
-          .update({ is_reserved: false })
-          .eq('id', reservation.gift_id);
+          .rpc('set_gift_reserved', { gift_id: reservation.gift_id, reserved: false });
         throw error;
       }
 
