@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -13,7 +12,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useReserveGift } from '@/hooks/useGifts';
 import { useToast } from '@/hooks/use-toast';
 import type { GiftWithReservation } from '@/types/gift';
@@ -42,7 +40,6 @@ interface ReservationModalProps {
 }
 
 export function ReservationModal({ gift, open, onOpenChange }: ReservationModalProps) {
-  const [isCouple, setIsCouple] = useState(false);
   const { toast } = useToast();
   const reserveGift = useReserveGift();
 
@@ -50,13 +47,20 @@ export function ReservationModal({ gift, open, onOpenChange }: ReservationModalP
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<ReservationFormData>({
     resolver: zodResolver(reservationSchema),
     defaultValues: {
       is_couple: false,
+      guest_name: '',
+      guest_email: '',
+      spouse_name: '',
     },
   });
+
+  const isCouple = watch('is_couple');
 
   const onSubmit = async (data: ReservationFormData) => {
     if (!gift) return;
