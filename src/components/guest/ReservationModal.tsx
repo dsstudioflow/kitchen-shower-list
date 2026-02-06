@@ -80,7 +80,6 @@ export function ReservationModal({ gift, open, onOpenChange }: ReservationModalP
       });
 
       reset();
-      setIsCouple(false);
       onOpenChange(false);
     } catch (error) {
       toast({
