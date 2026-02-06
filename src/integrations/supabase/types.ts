@@ -168,6 +168,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      set_gift_reserved: {
+        Args: { gift_id: string; reserved: boolean }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "couple"

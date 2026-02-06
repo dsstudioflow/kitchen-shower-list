@@ -191,11 +191,9 @@ export function useReleaseGift() {
 
       if (deleteError) throw deleteError;
 
-      // Update the gift as not reserved
+      // Update the gift as not reserved using SECURITY DEFINER function
       const { error: updateError } = await supabase
-        .from('gifts')
-        .update({ is_reserved: false })
-        .eq('id', giftId);
+        .rpc('set_gift_reserved', { gift_id: giftId, reserved: false });
 
       if (updateError) throw updateError;
     },
