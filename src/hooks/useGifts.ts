@@ -204,7 +204,9 @@ export function useReleaseGift() {
       if (updateError) throw updateError;
     },
     onSuccess: () => {
+      // Invalidate both query keys to update admin and public views
       queryClient.invalidateQueries({ queryKey: ['gifts'] });
+      queryClient.invalidateQueries({ queryKey: ['gifts-by-slug'] });
     },
   });
 }
