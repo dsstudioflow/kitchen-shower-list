@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -13,7 +12,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useReserveGift } from '@/hooks/useGifts';
 import { useToast } from '@/hooks/use-toast';
 import type { GiftWithReservation } from '@/types/gift';
@@ -42,7 +40,6 @@ interface ReservationModalProps {
 }
 
 export function ReservationModal({ gift, open, onOpenChange }: ReservationModalProps) {
-  const [isCouple, setIsCouple] = useState(false);
   const { toast } = useToast();
   const reserveGift = useReserveGift();
 
@@ -50,13 +47,20 @@ export function ReservationModal({ gift, open, onOpenChange }: ReservationModalP
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<ReservationFormData>({
     resolver: zodResolver(reservationSchema),
     defaultValues: {
       is_couple: false,
+      guest_name: '',
+      guest_email: '',
+      spouse_name: '',
     },
   });
+
+  const isCouple = watch('is_couple');
 
   const onSubmit = async (data: ReservationFormData) => {
     if (!gift) return;
@@ -76,7 +80,6 @@ export function ReservationModal({ gift, open, onOpenChange }: ReservationModalP
       });
 
       reset();
-      setIsCouple(false);
       onOpenChange(false);
     } catch (error) {
       toast({
@@ -134,46 +137,32 @@ export function ReservationModal({ gift, open, onOpenChange }: ReservationModalP
 
           <div className="space-y-3">
             <Label className="text-sm font-medium">Como você vai presentear?</Label>
-            <RadioGroup
-              defaultValue="individual"
-              onValueChange={(value) => setIsCouple(value === 'couple')}
-              className="flex gap-3"
-            >
-              <div 
+            <div className="flex gap-3">
+              <button
+                type="button"
                 className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border p-4 transition-all ${
                   !isCouple 
                     ? 'border-primary/50 bg-primary/10 text-primary' 
                     : 'border-border/50 bg-muted/30 text-muted-foreground hover:border-border hover:bg-muted/50'
                 }`}
-                onClick={() => setIsCouple(false)}
+                onClick={() => setValue('is_couple', false)}
               >
-                <RadioGroupItem
-                  value="individual"
-                  id="individual"
-                  className="sr-only"
-                  {...register('is_couple', { setValueAs: () => false })}
-                />
                 <User className="h-5 w-5" />
                 <span className="font-medium">Individual</span>
-              </div>
-              <div 
+              </button>
+              <button
+                type="button"
                 className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border p-4 transition-all ${
                   isCouple 
                     ? 'border-primary/50 bg-primary/10 text-primary' 
                     : 'border-border/50 bg-muted/30 text-muted-foreground hover:border-border hover:bg-muted/50'
                 }`}
-                onClick={() => setIsCouple(true)}
+                onClick={() => setValue('is_couple', true)}
               >
-                <RadioGroupItem
-                  value="couple"
-                  id="couple"
-                  className="sr-only"
-                  {...register('is_couple', { setValueAs: () => true })}
-                />
                 <Users className="h-5 w-5" />
                 <span className="font-medium">Em casal</span>
-              </div>
-            </RadioGroup>
+              </button>
+            </div>
           </div>
 
           {isCouple && (

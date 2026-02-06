@@ -90,11 +90,6 @@ export function GiftCard({ gift, onReserve }: GiftCardProps) {
             {gift.description}
           </p>
         )}
-        {gift.description && (
-          <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">
-            {gift.description}
-          </p>
-        )}
         
         <div className="flex gap-3">
           {gift.purchase_link && (
