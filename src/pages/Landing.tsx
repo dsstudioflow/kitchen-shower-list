@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Heart, Gift, Share2, Users, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
+import logo from '@/assets/logo.png';
 import { Button } from '@/components/ui/button';
 
 const features = [
