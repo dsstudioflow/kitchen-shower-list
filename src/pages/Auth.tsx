@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, Sparkles, Mail, Lock, User, Users, Loader2 } from 'lucide-react';
+import logo from '@/assets/logo.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -237,9 +238,7 @@ export default function Auth() {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-emerald-600 shadow-lg shadow-primary/30">
-              <Heart className="h-8 w-8 text-primary-foreground" />
-            </div>
+            <img src={logo} alt="Lista de Presentes" className="mx-auto mb-4 h-16 w-16 rounded-2xl object-contain shadow-lg shadow-primary/30" />
             <h1 className="font-display text-3xl font-bold text-foreground">
               Lista de Presentes
             </h1>
