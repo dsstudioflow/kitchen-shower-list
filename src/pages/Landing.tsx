@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Heart, Gift, Share2, Users, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Gift, Share2, Users, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import { Button } from '@/components/ui/button';
 
@@ -43,19 +43,20 @@ export default function Landing() {
 
       {/* Header */}
       <header className="relative border-b border-border/30">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
+        <div className="container mx-auto flex items-center justify-between px-4 py-3 md:py-4">
           <Link to="/" className="flex items-center gap-2">
             <img src={logo} alt="Lista de Presentes" className="h-8 w-8 object-contain" />
-            <span className="font-display text-xl font-bold">Lista de Presentes</span>
+            <span className="font-display text-lg font-bold md:text-xl">Lista de Presentes</span>
           </Link>
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" asChild>
+          <div className="flex items-center gap-2 md:gap-3">
+            <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
               <Link to="/auth">Entrar</Link>
             </Button>
-            <Button asChild>
+            <Button size="sm" asChild className="text-xs md:text-sm">
               <Link to="/auth">
-                Criar minha lista
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <span className="hidden sm:inline">Criar minha lista</span>
+                <span className="sm:hidden">Criar lista</span>
+                <ArrowRight className="ml-1.5 h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -64,52 +65,52 @@ export default function Landing() {
 
       {/* Hero Section */}
       <section className="relative">
-        <div className="container mx-auto px-4 py-20 text-center md:py-32">
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm text-primary">
-            <Sparkles className="h-4 w-4" />
+        <div className="container mx-auto px-4 py-12 text-center sm:py-16 md:py-32">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs text-primary md:mb-8 md:px-4 md:py-2 md:text-sm">
+            <Sparkles className="h-3.5 w-3.5 md:h-4 md:w-4" />
             <span>Crie sua lista em minutos</span>
           </div>
 
-          <h1 className="mb-6 font-display text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl">
+          <h1 className="mb-4 font-display text-3xl font-bold tracking-tight sm:text-4xl md:mb-6 md:text-6xl lg:text-7xl">
             <span className="text-gradient">A forma mais fácil</span>
             <br />
             de organizar seu chá
           </h1>
           
-          <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <p className="mx-auto mb-8 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base md:mb-10 md:text-xl">
             Crie sua lista de presentes personalizada, compartilhe com seus convidados 
             e acompanhe as reservas em tempo real. Simples, elegante e gratuito.
           </p>
 
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button size="lg" className="h-12 px-8 text-base" asChild>
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+            <Button size="lg" className="h-11 w-full px-6 text-sm sm:h-12 sm:w-auto sm:px-8 sm:text-base" asChild>
               <Link to="/auth">
                 Começar agora
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="h-12 px-8 text-base" asChild>
+            <Button size="lg" variant="outline" className="h-11 w-full px-6 text-sm sm:h-12 sm:w-auto sm:px-8 sm:text-base" asChild>
               <Link to="/lista/demo">Ver exemplo</Link>
             </Button>
           </div>
 
           {/* Stats */}
-          <div className="mx-auto mt-16 max-w-2xl">
-            <div className="glass rounded-2xl p-8">
+          <div className="mx-auto mt-10 max-w-sm sm:mt-16 sm:max-w-2xl">
+            <div className="glass rounded-2xl p-5 sm:p-8">
               <div className="flex items-center justify-around">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-foreground">100%</div>
-                  <div className="mt-1 text-sm text-muted-foreground">Gratuito</div>
+                  <div className="text-2xl font-bold text-foreground sm:text-4xl">100%</div>
+                  <div className="mt-1 text-xs text-muted-foreground sm:text-sm">Gratuito</div>
                 </div>
-                <div className="h-12 w-px bg-border" />
+                <div className="h-8 w-px bg-border sm:h-12" />
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-primary">∞</div>
-                  <div className="mt-1 text-sm text-muted-foreground">Presentes</div>
+                  <div className="text-2xl font-bold text-primary sm:text-4xl">∞</div>
+                  <div className="mt-1 text-xs text-muted-foreground sm:text-sm">Presentes</div>
                 </div>
-                <div className="h-12 w-px bg-border" />
+                <div className="h-8 w-px bg-border sm:h-12" />
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-foreground">1</div>
-                  <div className="mt-1 text-sm text-muted-foreground">Link único</div>
+                  <div className="text-2xl font-bold text-foreground sm:text-4xl">1</div>
+                  <div className="mt-1 text-xs text-muted-foreground sm:text-sm">Link único</div>
                 </div>
               </div>
             </div>
@@ -118,29 +119,29 @@ export default function Landing() {
       </section>
 
       {/* Features Section */}
-      <section className="relative border-t border-border/30 py-20 md:py-32">
+      <section className="relative border-t border-border/30 py-12 sm:py-20 md:py-32">
         <div className="container mx-auto px-4">
-          <div className="mb-16 text-center">
-            <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">
+          <div className="mb-10 text-center md:mb-16">
+            <h2 className="mb-3 font-display text-2xl font-bold sm:text-3xl md:mb-4 md:text-4xl">
               Tudo que você precisa
             </h2>
-            <p className="mx-auto max-w-xl text-muted-foreground">
+            <p className="mx-auto max-w-xl text-sm text-muted-foreground sm:text-base">
               Uma plataforma completa para organizar sua lista de presentes de casamento, 
               chá de cozinha ou qualquer celebração especial.
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-3">
-            {features.map((feature, index) => (
+          <div className="grid gap-4 sm:gap-8 md:grid-cols-3">
+            {features.map((feature) => (
               <div 
                 key={feature.title}
-                className="glass group rounded-2xl p-8 transition-all hover:border-primary/30"
+                className="glass group rounded-2xl p-6 transition-all hover:border-primary/30 sm:p-8"
               >
-                <div className="mb-6 inline-flex rounded-xl bg-primary/10 p-3 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                  <feature.icon className="h-6 w-6" />
+                <div className="mb-4 inline-flex rounded-xl bg-primary/10 p-3 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground sm:mb-6">
+                  <feature.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
-                <h3 className="mb-3 text-xl font-semibold">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
+                <h3 className="mb-2 text-lg font-semibold sm:mb-3 sm:text-xl">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground sm:text-base">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -148,27 +149,27 @@ export default function Landing() {
       </section>
 
       {/* Benefits Section */}
-      <section className="relative border-t border-border/30 py-20 md:py-32">
+      <section className="relative border-t border-border/30 py-12 sm:py-20 md:py-32">
         <div className="container mx-auto px-4">
-          <div className="grid items-center gap-12 md:grid-cols-2">
+          <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
             <div>
-              <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">
+              <h2 className="mb-3 font-display text-2xl font-bold sm:text-3xl md:mb-4 md:text-4xl">
                 Por que escolher nossa plataforma?
               </h2>
-              <p className="mb-8 text-lg text-muted-foreground">
+              <p className="mb-6 text-sm text-muted-foreground sm:text-base md:mb-8 md:text-lg">
                 Desenvolvemos uma solução pensada em cada detalhe para tornar 
                 sua experiência simples e agradável.
               </p>
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
                 {benefits.map((benefit) => (
                   <div key={benefit} className="flex items-center gap-2">
-                    <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-primary" />
-                    <span className="text-foreground">{benefit}</span>
+                    <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-primary sm:h-5 sm:w-5" />
+                    <span className="text-sm text-foreground sm:text-base">{benefit}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="relative">
+            <div className="relative hidden md:block">
               <div className="glass rounded-3xl p-8">
                 <div className="space-y-4">
                   <div className="flex items-center gap-4 rounded-xl bg-muted/50 p-4">
@@ -182,7 +183,7 @@ export default function Landing() {
                     </div>
                   </div>
                   <div className="flex items-center gap-4 rounded-xl bg-muted/50 p-4">
-                    <div className="h-12 w-12 rounded-lg bg-emerald-500/20" />
+                    <div className="h-12 w-12 rounded-lg bg-primary/20" />
                     <div className="flex-1">
                       <div className="h-4 w-32 rounded bg-foreground/20" />
                       <div className="mt-2 h-3 w-20 rounded bg-muted-foreground/30" />
@@ -192,7 +193,7 @@ export default function Landing() {
                     </div>
                   </div>
                   <div className="flex items-center gap-4 rounded-xl bg-muted/50 p-4">
-                    <div className="h-12 w-12 rounded-lg bg-amber-500/20" />
+                    <div className="h-12 w-12 rounded-lg bg-primary/20" />
                     <div className="flex-1">
                       <div className="h-4 w-28 rounded bg-foreground/20" />
                       <div className="mt-2 h-3 w-14 rounded bg-muted-foreground/30" />
@@ -209,17 +210,17 @@ export default function Landing() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative border-t border-border/30 py-20 md:py-32">
+      <section className="relative border-t border-border/30 py-12 sm:py-20 md:py-32">
         <div className="container mx-auto px-4 text-center">
           <div className="mx-auto max-w-2xl">
-            <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">
+            <h2 className="mb-3 font-display text-2xl font-bold sm:text-3xl md:mb-4 md:text-4xl">
               Pronto para começar?
             </h2>
-            <p className="mb-8 text-lg text-muted-foreground">
+            <p className="mb-6 text-sm text-muted-foreground sm:text-base md:mb-8 md:text-lg">
               Crie sua lista de presentes agora mesmo e compartilhe com seus convidados. 
               É rápido, fácil e gratuito!
             </p>
-            <Button size="lg" className="h-12 px-8 text-base" asChild>
+            <Button size="lg" className="h-11 w-full px-6 text-sm sm:h-12 sm:w-auto sm:px-8 sm:text-base" asChild>
               <Link to="/auth">
                 Criar minha lista
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -230,10 +231,11 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="relative border-t border-border/30 py-8">
+      <footer className="relative border-t border-border/30 py-6 md:py-8">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-muted-foreground">
-            Feito com <Heart className="inline-block h-4 w-4 text-primary" /> para casais apaixonados
+          <img src={logo} alt="Lista de Presentes" className="mx-auto mb-2 h-6 w-6 object-contain opacity-60" />
+          <p className="text-xs text-muted-foreground sm:text-sm">
+            Feito com amor para casais apaixonados
           </p>
         </div>
       </footer>
