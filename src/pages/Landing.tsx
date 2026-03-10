@@ -45,9 +45,7 @@ export default function Landing() {
       <header className="relative border-b border-border/30">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <Link to="/" className="flex items-center gap-2">
-            <div className="rounded-xl bg-gradient-to-br from-primary to-emerald-600 p-2">
-              <Heart className="h-5 w-5 text-primary-foreground" />
-            </div>
+            <img src={logo} alt="Lista de Presentes" className="h-10 w-10 rounded-xl object-contain" />
             <span className="font-display text-xl font-bold">Lista de Presentes</span>
           </Link>
           <div className="flex items-center gap-3">
