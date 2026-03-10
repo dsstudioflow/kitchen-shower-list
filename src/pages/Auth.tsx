@@ -238,7 +238,7 @@ export default function Auth() {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="mb-8 text-center">
-            <img src={logo} alt="Lista de Presentes" className="mx-auto mb-4 h-16 w-16 rounded-2xl object-contain shadow-lg shadow-primary/30" />
+            <img src={logo} alt="Lista de Presentes" className="mx-auto mb-4 h-14 w-14 object-contain" />
             <h1 className="font-display text-3xl font-bold text-foreground">
               Lista de Presentes
             </h1>
