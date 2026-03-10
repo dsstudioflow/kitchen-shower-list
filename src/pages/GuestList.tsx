@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Heart, Gift, Sparkles, Calendar, Loader2, ArrowLeft } from 'lucide-react';
+import { Gift, Sparkles, Calendar, Loader2, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { GiftCard } from '@/components/guest/GiftCard';
 import { GiftFilters } from '@/components/guest/GiftFilters';
@@ -10,6 +10,7 @@ import { useProfileBySlug } from '@/hooks/useProfile';
 import type { GiftWithReservation, GiftCategory } from '@/types/gift';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import logo from '@/assets/logo.png';
 
 export default function GuestList() {
   const { slug } = useParams<{ slug: string }>();
@@ -99,20 +100,18 @@ export default function GuestList() {
       {/* Header */}
       <header className="relative border-b border-border/30">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
-        <div className="container relative mx-auto px-4 py-16 text-center md:py-24">
+        <div className="container relative mx-auto px-4 py-12 text-center md:py-24">
           {/* Badge */}
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm text-primary">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm text-primary md:mb-8">
             <Sparkles className="h-4 w-4" />
             <span>{profile?.event_name || 'Lista de Presentes'}</span>
           </div>
 
           {/* Logo */}
-          <div className="mb-8 flex justify-center">
+          <div className="mb-6 flex justify-center md:mb-8">
             <div className="relative">
               <div className="absolute inset-0 animate-pulse rounded-3xl bg-primary/30 blur-2xl" />
-              <div className="relative rounded-3xl bg-gradient-to-br from-primary via-primary to-emerald-600 p-5 shadow-2xl shadow-primary/30">
-                <Heart className="h-12 w-12 text-primary-foreground" />
-              </div>
+              <img src={logo} alt="Lista de Presentes" className="relative h-16 w-16 object-contain md:h-20 md:w-20" />
             </div>
           </div>
 
@@ -123,16 +122,16 @@ export default function GuestList() {
             </div>
           ) : (
             <>
-              <h1 className="mb-4 font-display text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl">
+              <h1 className="mb-3 font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-7xl">
                 <span className="text-gradient">{coupleNames}</span>
               </h1>
               {eventDate && (
-                <div className="mb-4 flex items-center justify-center gap-2 text-muted-foreground">
+                <div className="mb-3 flex items-center justify-center gap-2 text-sm text-muted-foreground md:mb-4 md:text-base">
                   <Calendar className="h-4 w-4" />
                   <span>{eventDate}</span>
                 </div>
               )}
-              <p className="mx-auto max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+              <p className="mx-auto max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg">
                 Escolha um presente especial para nos ajudar a montar nossa nova casa. 
                 Cada item foi escolhido com carinho!
               </p>
@@ -140,31 +139,31 @@ export default function GuestList() {
           )}
 
           {/* Stats */}
-          <div className="mx-auto mt-12 flex max-w-md justify-center">
-            <div className="glass flex w-full items-center justify-around rounded-2xl p-6">
+          <div className="mx-auto mt-8 flex max-w-md justify-center md:mt-12">
+            <div className="glass flex w-full items-center justify-around rounded-2xl p-4 md:p-6">
               <div className="text-center">
-                <div className="text-4xl font-bold text-foreground md:text-5xl">
+                <div className="text-2xl font-bold text-foreground sm:text-3xl md:text-5xl">
                   {stats.total}
                 </div>
-                <div className="mt-2 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+                <div className="mt-1 text-xs font-medium uppercase tracking-wider text-muted-foreground md:mt-2 md:text-sm">
                   Total
                 </div>
               </div>
-              <div className="h-16 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
+              <div className="h-10 w-px bg-gradient-to-b from-transparent via-border to-transparent md:h-16" />
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary md:text-5xl">
+                <div className="text-2xl font-bold text-primary sm:text-3xl md:text-5xl">
                   {stats.available}
                 </div>
-                <div className="mt-2 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+                <div className="mt-1 text-xs font-medium uppercase tracking-wider text-muted-foreground md:mt-2 md:text-sm">
                   Disponíveis
                 </div>
               </div>
-              <div className="h-16 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
+              <div className="h-10 w-px bg-gradient-to-b from-transparent via-border to-transparent md:h-16" />
               <div className="text-center">
-                <div className="text-4xl font-bold text-muted-foreground md:text-5xl">
+                <div className="text-2xl font-bold text-muted-foreground sm:text-3xl md:text-5xl">
                   {stats.reserved}
                 </div>
-                <div className="mt-2 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+                <div className="mt-1 text-xs font-medium uppercase tracking-wider text-muted-foreground md:mt-2 md:text-sm">
                   Reservados
                 </div>
               </div>
@@ -174,9 +173,9 @@ export default function GuestList() {
       </header>
 
       {/* Main Content */}
-      <main className="container relative mx-auto px-4 py-12">
+      <main className="container relative mx-auto px-4 py-8 md:py-12">
         {/* Filters */}
-        <div className="mb-10">
+        <div className="mb-8 md:mb-10">
           <GiftFilters
             search={search}
             onSearchChange={setSearch}
@@ -224,7 +223,7 @@ export default function GuestList() {
 
         {/* Gift Grid */}
         {!isLoading && !error && filteredGifts.length > 0 && (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6">
             {filteredGifts.map((gift, index) => (
               <div 
                 key={gift.id} 
@@ -239,10 +238,11 @@ export default function GuestList() {
       </main>
 
       {/* Footer */}
-      <footer className="relative border-t border-border/30 py-12">
+      <footer className="relative border-t border-border/30 py-8 md:py-12">
         <div className="container mx-auto px-4 text-center">
+          <img src={logo} alt="Lista de Presentes" className="mx-auto mb-3 h-6 w-6 object-contain opacity-60" />
           <p className="text-sm text-muted-foreground">
-            Feito com <Heart className="inline-block h-4 w-4 text-primary" /> para celebrar o amor
+            Feito com amor para celebrar o amor
           </p>
         </div>
       </footer>
