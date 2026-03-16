@@ -11,6 +11,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import DashboardGifts from "./pages/dashboard/Gifts";
 import DashboardReservations from "./pages/dashboard/Reservations";
 import DashboardSettings from "./pages/dashboard/Settings";
+import DemoList from "./pages/DemoList";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             {/* Public routes */}
             <Route path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/lista/demo" element={<DemoList />} />
             <Route path="/lista/:slug" element={<GuestList />} />
             
             {/* Dashboard routes (protected) */}
