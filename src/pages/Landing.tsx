@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Gift, Share2, Users, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Gift, Share2, Users, Sparkles, ArrowRight, CheckCircle2, Star, Zap, Shield } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import { Button } from '@/components/ui/button';
 
@@ -28,6 +28,33 @@ const benefits = [
   'Acompanhamento em tempo real',
   'Design elegante e moderno',
   'Funciona em qualquer dispositivo',
+];
+
+const steps = [
+  {
+    number: '01',
+    icon: Zap,
+    title: 'Crie sua conta',
+    description: 'Cadastre-se em segundos com seu e-mail. Sem burocracia.',
+  },
+  {
+    number: '02',
+    icon: Gift,
+    title: 'Monte sua lista',
+    description: 'Adicione os presentes que deseja com fotos, preços e links de compra.',
+  },
+  {
+    number: '03',
+    icon: Share2,
+    title: 'Compartilhe o link',
+    description: 'Envie o link único para seus convidados via WhatsApp, e-mail ou redes sociais.',
+  },
+  {
+    number: '04',
+    icon: Star,
+    title: 'Acompanhe tudo',
+    description: 'Veja em tempo real quem reservou cada presente. Sem surpresas!',
+  },
 ];
 
 export default function Landing() {
@@ -118,6 +145,41 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* How it Works Section */}
+      <section className="relative border-t border-border/30 py-12 sm:py-20 md:py-32">
+        <div className="container mx-auto px-4">
+          <div className="mb-10 text-center md:mb-16">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs text-primary sm:text-sm">
+              <Zap className="h-3.5 w-3.5" />
+              <span>Simples e rápido</span>
+            </div>
+            <h2 className="mb-3 font-display text-2xl font-bold sm:text-3xl md:mb-4 md:text-4xl">
+              Como funciona?
+            </h2>
+            <p className="mx-auto max-w-xl text-sm text-muted-foreground sm:text-base">
+              Em apenas 4 passos você terá sua lista de presentes pronta para compartilhar.
+            </p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {steps.map((step) => (
+              <div key={step.number} className="group relative">
+                <div className="glass rounded-2xl p-6 transition-all hover:border-primary/30 sm:p-8">
+                  <div className="mb-4 flex items-center justify-between">
+                    <span className="text-3xl font-black text-primary/20 sm:text-4xl">{step.number}</span>
+                    <div className="rounded-xl bg-primary/10 p-2.5 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                      <step.icon className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <h3 className="mb-2 text-base font-semibold sm:text-lg">{step.title}</h3>
+                  <p className="text-xs leading-relaxed text-muted-foreground sm:text-sm">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="relative border-t border-border/30 py-12 sm:py-20 md:py-32">
         <div className="container mx-auto px-4">
@@ -148,11 +210,15 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Benefits Section */}
+      {/* Preview Section */}
       <section className="relative border-t border-border/30 py-12 sm:py-20 md:py-32">
         <div className="container mx-auto px-4">
           <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
             <div>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs text-primary sm:text-sm">
+                <Shield className="h-3.5 w-3.5" />
+                <span>Garantia de qualidade</span>
+              </div>
               <h2 className="mb-3 font-display text-2xl font-bold sm:text-3xl md:mb-4 md:text-4xl">
                 Por que escolher nossa plataforma?
               </h2>
@@ -168,40 +234,39 @@ export default function Landing() {
                   </div>
                 ))}
               </div>
+              <div className="mt-6 sm:mt-8">
+                <Button variant="outline" size="lg" className="h-11 w-full text-sm sm:h-12 sm:w-auto sm:px-8 sm:text-base" asChild>
+                  <Link to="/lista/demo">
+                    Ver exemplo ao vivo
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
             </div>
-            <div className="relative hidden md:block">
-              <div className="glass rounded-3xl p-8">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4 rounded-xl bg-muted/50 p-4">
-                    <div className="h-12 w-12 rounded-lg bg-primary/20" />
-                    <div className="flex-1">
-                      <div className="h-4 w-24 rounded bg-foreground/20" />
-                      <div className="mt-2 h-3 w-16 rounded bg-muted-foreground/30" />
+            <div className="relative">
+              <div className="glass rounded-3xl p-5 sm:p-8">
+                <div className="space-y-3 sm:space-y-4">
+                  {[
+                    { name: 'Jogo de Panelas', price: 'R$ 389,90', status: 'available' },
+                    { name: 'Jogo de Cama King', price: 'R$ 459,90', status: 'reserved' },
+                    { name: 'Cafeteira Automática', price: 'R$ 699,00', status: 'available' },
+                    { name: 'Sofá Retrátil', price: 'R$ 2.499,00', status: 'reserved' },
+                  ].map((item) => (
+                    <div key={item.name} className="flex items-center gap-3 rounded-xl bg-muted/50 p-3 sm:gap-4 sm:p-4">
+                      <div className="h-10 w-10 flex-shrink-0 rounded-lg bg-primary/20 sm:h-12 sm:w-12" />
+                      <div className="flex-1 min-w-0">
+                        <div className="truncate text-sm font-medium text-foreground">{item.name}</div>
+                        <div className="mt-0.5 text-xs text-muted-foreground">{item.price}</div>
+                      </div>
+                      <div className={`flex-shrink-0 rounded-full px-2.5 py-1 text-[10px] font-medium sm:px-3 sm:text-xs ${
+                        item.status === 'available'
+                          ? 'bg-primary/20 text-primary'
+                          : 'bg-muted text-muted-foreground'
+                      }`}>
+                        {item.status === 'available' ? 'Disponível' : 'Reservado'}
+                      </div>
                     </div>
-                    <div className="rounded-full bg-primary/20 px-3 py-1 text-xs text-primary">
-                      Disponível
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 rounded-xl bg-muted/50 p-4">
-                    <div className="h-12 w-12 rounded-lg bg-primary/20" />
-                    <div className="flex-1">
-                      <div className="h-4 w-32 rounded bg-foreground/20" />
-                      <div className="mt-2 h-3 w-20 rounded bg-muted-foreground/30" />
-                    </div>
-                    <div className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground">
-                      Reservado
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 rounded-xl bg-muted/50 p-4">
-                    <div className="h-12 w-12 rounded-lg bg-primary/20" />
-                    <div className="flex-1">
-                      <div className="h-4 w-28 rounded bg-foreground/20" />
-                      <div className="mt-2 h-3 w-14 rounded bg-muted-foreground/30" />
-                    </div>
-                    <div className="rounded-full bg-primary/20 px-3 py-1 text-xs text-primary">
-                      Disponível
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
