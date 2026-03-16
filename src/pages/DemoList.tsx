@@ -230,7 +230,7 @@ export default function DemoList() {
               <div className="h-8 w-px bg-gradient-to-b from-transparent via-border to-transparent sm:h-10 md:h-16" />
               <div className="text-center">
                 <div className="text-xl font-bold text-muted-foreground sm:text-2xl md:text-5xl">{stats.reserved}</div>
-                <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground sm:mt-1 sm:text-xs md:mt-md:text-sm">Reservados</div>
+                <div className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground sm:mt-1 sm:text-xs md:mt-2 md:text-sm">Reservados</div>
               </div>
             </div>
           </div>
