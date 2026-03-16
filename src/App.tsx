@@ -27,6 +27,7 @@ const App = () => (
             {/* Public routes */}
             <Route path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/lista/demo" element={<DemoList />} />
             <Route path="/lista/:slug" element={<GuestList />} />
             
             {/* Dashboard routes (protected) */}
