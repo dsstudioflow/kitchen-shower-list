@@ -95,7 +95,7 @@ const DEMO_GIFTS: GiftWithReservation[] = [
     id: 'demo-6',
     name: 'Organizador de Roupas',
     description: 'Cesto organizador dobrável para roupas. Prático e resistente.',
-    image_url: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop',
+    image_url: 'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=400&h=300&fit=crop',
     purchase_link: null,
     category: 'Área de Serviço',
     price: 39.90,
